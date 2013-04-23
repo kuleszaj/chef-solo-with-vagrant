@@ -14,3 +14,9 @@ gem "capistrano-ext"
 gem "chef","11.4.2"
 gem "berkshelf"
 gem "foodcritic"
+
+group :test do
+  gem "rspec"
+  gem "capistrano-spec", :git => "git://github.com/technicalpickles/capistrano-spec.git"
+  gem "simplecov"
+end

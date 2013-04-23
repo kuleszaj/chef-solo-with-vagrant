@@ -3,3 +3,4 @@ chef/cookbooks
 .vagrant
 *.tar.gz
 .ssh/*
+coverage

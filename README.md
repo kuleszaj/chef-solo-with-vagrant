@@ -6,9 +6,10 @@ The intent is to provide a skeletal framework from which others can start using 
 
 ## Requirements
 
-1. Ruby 1.9.3
-2. Bundler
-3. Vagrant 1.1.x or 1.2.x
+1. [Ruby 1.9.3](http://ruby-lang.org)
+2. [Bundler](http://gembundler.com/)
+3. [Vagrant](vagrantup.com) 1.1.x or 1.2.x
+4. Vagrant Provider (e.g. [VirtualBox](http://virtualbox.org/), [VMWare Fusion](http://www.vagrantup.com/vmware), [AWS](https://github.com/mitchellh/vagrant-aws))
 
 ## Getting Started
 

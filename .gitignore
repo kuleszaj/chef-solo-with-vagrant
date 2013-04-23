@@ -1,0 +1,4 @@
+vendor
+chef/cookbooks
+.vagrant
+*.tar.gz

@@ -1,0 +1,11 @@
+{
+  "example_cookbook":
+    {
+      "contents": "something"
+    },
+  "run_list":
+    [
+      "recipe[example_cookbook]"
+    ]
+}
+

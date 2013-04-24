@@ -4,3 +4,4 @@ chef/cookbooks
 *.tar.gz
 .ssh/*
 coverage
+*.swp

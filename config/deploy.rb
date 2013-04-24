@@ -81,6 +81,7 @@ module ChefSoloWithVagrant
         task :default do
           # Use the loaded SSH configuration info to connect to {stage} with knife and bootstrap the system with Chef.
           set :user, Net::SSH::Config.for("#{stage}", ssh_options[:config])[:user]
+          puts user
           set :id_file, Net::SSH::Config.for("#{stage}", ssh_options[:config])[:keys][0] if Net::SSH::Config.for("#{stage}", ssh_options[:config]).has_key?(:keys)
           set :hostname, Net::SSH::Config.for("#{stage}", ssh_options[:config])[:host_name]
           set :hostport, Net::SSH::Config.for("#{stage}", ssh_options[:config])[:port] || 22

@@ -47,10 +47,9 @@ describe "#variables" do
   end
 end
 
-describe "#all#vagrant" do
+describe "#vg:all" do
   before do
     @configuration = Capistrano::Configuration.new
-    @configuration.extend(Capistrano::Spec::ConfigurationExtension)
     ChefSoloWithVagrant.load_into(@configuration)
   end
 
@@ -72,10 +71,9 @@ describe "#all#vagrant" do
   end
 end
 
-describe "#vagrant" do
+describe "#vg" do
   before do
     @configuration = Capistrano::Configuration.new
-    @configuration.extend(Capistrano::Spec::ConfigurationExtension)
     ChefSoloWithVagrant.load_into(@configuration)
   end
 
@@ -90,9 +88,25 @@ describe "#vagrant" do
     @configuration.find_and_execute_task("vexample")
     @configuration.stage.should == :vexample
     @configuration.find_task("vg:up").namespace.should_receive(:system).with("vagrant up vexample")
-    @configuration.find_task("ssh:generate_config").namespace.should_receive(:system).with("mkdir -p #{File.realdirpath(File.join(PROJECT_ROOT,".ssh"))}")
-    @configuration.find_task("ssh:generate_config").namespace.should_receive(:system).with("vagrant ssh-config vexample > #{File.realdirpath(File.join(PROJECT_ROOT,".ssh"))}/vexample_ssh_config")
+    @configuration.find_task("ssh:generate_config").namespace.should_receive(:system).with("mkdir -p #{File.realdirpath(File.join(PROJECT_ROOT,'.ssh'))}")
+    @configuration.find_task("ssh:generate_config").namespace.should_receive(:system).with("vagrant ssh-config vexample > #{File.realdirpath(File.join(PROJECT_ROOT,'.ssh','vexample_ssh_config'))}")
     @configuration.find_and_execute_task("vg:up")
+  end
+
+  it "halt" do
+    @configuration.find_and_execute_task("vexample")
+    @configuration.stage.should == :vexample
+    @configuration.find_task("vg:halt").namespace.should_receive(:system).with("vagrant halt vexample")
+    @configuration.find_task("ssh:destroy_config").namespace.should_receive(:system).with("rm #{File.realdirpath(File.join(PROJECT_ROOT,'.ssh','vexample_ssh_config'))}")
+    @configuration.find_and_execute_task("vg:halt")
+  end
+
+  it "destroy" do
+    @configuration.find_and_execute_task("vexample")
+    @configuration.stage.should == :vexample
+    @configuration.find_task("vg:destroy").namespace.should_receive(:system).with("vagrant destroy -f vexample")
+    @configuration.find_task("ssh:destroy_config").namespace.should_receive(:system).with("rm #{File.realdirpath(File.join(PROJECT_ROOT,'.ssh','vexample_ssh_config'))}")
+    @configuration.find_and_execute_task("vg:destroy")
   end
 end
 
@@ -106,5 +120,12 @@ describe "#berks" do
   it "default" do
     @configuration.find_task("berks").namespace.should_receive(:system).with("berks install --path chef/cookbooks/")
     @configuration.find_and_execute_task("berks")
+  end
+end
+
+describe "#bootstrap" do
+  before do
+    @configuration = Capistrano::Configuration.new
+    ChefSoloWithVagrant.load_into(@configuration)
   end
 end

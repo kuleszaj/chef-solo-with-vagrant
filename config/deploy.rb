@@ -32,17 +32,15 @@ module ChefSoloWithVagrant
       set :use_sudo, true
 
       # The project SSH configurations are in .ssh/
-      set :ssh_d, File.join(File.dirname(__FILE__),"..",".ssh")
+      set :ssh_d, File.realdirpath(File.join(File.dirname(__FILE__),"..",".ssh"))
 
       # By default, use a pseudo-TTY
       default_run_options[:pty] = true 
-
       # SSH agent forwarding is useful for remote commands that need to use local credentials
       ssh_options[:forward_agent] = true
 
       # Allow Capistrano to use all configuration files in the ssh_d directory
-      ssh_options[:config] = Dir.glob("#{ssh_d}/*")
-      set :chef_binary, "/usr/bin/chef-solo"
+      ssh_options[:config] = Dir.glob("#{ssh_d}/*.rb")
 
       # SSH Namespace
       namespace :ssh do
@@ -172,7 +170,7 @@ module ChefSoloWithVagrant
 
           desc "Boot all Vagrant VM's."
           task :up do
-            system("vagrant status")
+            system("vagrant up")
           end
 
           desc "Destroy all Vagrant VM's."
@@ -184,13 +182,6 @@ module ChefSoloWithVagrant
           task :halt do
             system("vagrant halt")
           end
-        end
-      end
-
-      namespace :simple_test do
-        desc "testing"
-        task :echo do
-          system("echo 'test'")
         end
       end
 

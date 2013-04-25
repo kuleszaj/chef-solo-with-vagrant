@@ -21,8 +21,8 @@ set :default_stage, "vagrant"
 # Allow use of sudo, if we need it
 set :use_sudo, true
 
-# The project SSH configurations are in .ssh/
-set :ssh_d, File.join(File.dirname(__FILE__),"..",".ssh")
+# The project SSH configurations are in ~/.ssh/projectname; currently chef-solo-with-capistrano
+set :ssh_d, File.join(Dir.home,".ssh","chef-solo-with-capistrano")
 
 # By default, use a pseudo-TTY
 default_run_options[:pty] = true 
@@ -162,7 +162,7 @@ namespace :vg do
 
     desc "Boot all Vagrant VM's."
     task :up do
-      system("vagrant status")
+      system("vagrant up")
     end
 
     desc "Destroy all Vagrant VM's."

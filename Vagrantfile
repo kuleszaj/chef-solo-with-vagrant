@@ -1,6 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+@user_configuration = {}
+load File.join(File.dirname(__FILE__),"config","stages.rb")
+
 # This is specifically design for VirtualBox. You could fairly easily adapt it to another Vagrant provider such as VMWare Fusion or AWS.
 Vagrant.configure("2") do |config|
 
@@ -10,12 +13,10 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
-  # We add a new Vagrant for each stage in config/deploy
-  Dir.entries(File.join(File.dirname(__FILE__),"config","deploy")).map{|item|item[/(v.*?)(?=.rb)/]}.compact.each{|stage|
-    next if stage[/vagrant/]
-    config.vm.define "#{stage}" do |vagrant|
-      vagrant.vm.hostname = "#{stage}"
+  @user_configuration["vagrants"].each do |name|
+    config.vm.define "#{name}" do |vagrant|
+      vagrant.vm.hostname = "#{name}"
       vagrant.vm.network :private_network, type: :dhcp
     end
-  }
+  end
 end

@@ -9,9 +9,9 @@ namespace :bootstrap do
     set :hostport, Net::SSH::Config.for("#{stage}", ssh_options[:config])[:port] || 22
     # If there is an `id_file`, use it.  Otherwise, fall back to default knife behavior (ask for password)
     if exists?(:id_file)
-      system("cd chef && knife bootstrap --bootstrap-version '11.4.4' -d chef-solo -x #{user} -i #{id_file} --sudo #{hostname} -p #{hostport}")
+      system("cd chef && knife bootstrap --bootstrap-version '#{chef_version}' -d chef-solo -x #{user} -i #{id_file} --sudo #{hostname} -p #{hostport}")
     else
-      system("cd chef && knife bootstrap --bootstrap-version '11.4.4' -d chef-solo -x #{user} --sudo #{hostname} -p #{hostport}")
+      system("cd chef && knife bootstrap --bootstrap-version '#{chef_version}' -d chef-solo -x #{user} --sudo #{hostname} -p #{hostport}")
     end
   end
 end

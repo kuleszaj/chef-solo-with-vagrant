@@ -5,5 +5,7 @@
 # @user_configuration["vagrants"] = ["vexample1","vexample2"]
 #
 
+@project_name = "my-server"
+
 @user_configuration["servers"]    = ["example"]
 #@user_configuration["vagrants"]   = ["vexample"]

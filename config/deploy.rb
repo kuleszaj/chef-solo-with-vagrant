@@ -3,14 +3,12 @@
 # Copyright (C) 2013 Atomic Object, LLC
 # Version 0.0.1
 
-# Capistrano multistage is required.
-#require "capistrano/ext/multistage"
-
 # Pry may be useful for debugging
 #require "pry"
 
 # This is where we expect the chef-solo binary to be located (can be overriden in a specific stage)
 set :chef_binary, "/usr/bin/chef-solo"
+set :chef_version, Bundler.definition.specs["chef"][0].version.to_s
 
 begin
 
@@ -18,11 +16,15 @@ begin
 
   load File.join(File.dirname(__FILE__),"stages.rb")
 
+  set :project_name, ( @project_name || "chef-solo-with-capistrano" )
+
   @user_configuration["servers"].each do |name|
     desc "Set the target stage to `#{name}`."
     task (name) do
       set :stage, name.to_sym
       set :stage_type, "server"
+      set :stage_config, Net::SSH::Config.for("#{stage}", ssh_options[:config])
+      server "#{stage_config[:host_name]}:#{stage_config[:port] || 22}", :chef unless stage_config.nil?
     end
   end
 
@@ -31,6 +33,8 @@ begin
     task (name) do
       set :stage, name.to_sym
       set :stage_type, "vagrant"
+      set :stage_config, Net::SSH::Config.for("#{stage}", ssh_options[:config])
+      server "#{stage_config[:host_name]}:#{stage_config[:port] || 22}", :chef unless stage_config.nil?
     end
   end
 
@@ -52,7 +56,7 @@ end
 set :use_sudo, true
 
 # The project SSH configurations are in ~/.ssh/projectname; currently chef-solo-with-capistrano
-set :ssh_d, File.join(Dir.home,".ssh","chef-solo-with-capistrano")
+set :ssh_d, File.join(Dir.home,".ssh",project_name)
 
 # By default, use a pseudo-TTY
 default_run_options[:pty] = true 

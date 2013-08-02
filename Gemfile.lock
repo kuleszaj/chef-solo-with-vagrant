@@ -32,7 +32,7 @@ GEM
       capistrano (>= 1.0.0)
     celluloid (0.13.0)
       timers (>= 1.0.0)
-    chef (11.4.2)
+    chef (11.4.4)
       erubis
       highline (>= 1.6.9)
       json (>= 1.4.4, <= 1.7.7)
@@ -89,7 +89,7 @@ GEM
       net-ssh (>= 2.1.4)
       net-ssh-gateway (>= 0.99.0)
     nokogiri (1.5.9)
-    ohai (6.16.0)
+    ohai (6.18.0)
       ipaddress
       mixlib-cli
       mixlib-config
@@ -136,5 +136,5 @@ DEPENDENCIES
   berkshelf
   capistrano
   capistrano-ext
-  chef (= 11.4.2)
+  chef (= 11.4.4)
   foodcritic

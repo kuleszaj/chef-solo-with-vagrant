@@ -11,6 +11,6 @@ gem "capistrano-ext"
 #gem "pry"
 
 # Required/Useful for Chef
-gem "chef","11.4.2"
+gem "chef","11.4.4"
 gem "berkshelf"
 gem "foodcritic"
